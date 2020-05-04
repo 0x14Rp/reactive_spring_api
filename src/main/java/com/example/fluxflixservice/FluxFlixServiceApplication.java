@@ -7,16 +7,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import reactor.core.publisher.Flux;
+
+import java.util.Date;
 
 @SpringBootApplication
 public class FluxFlixServiceApplication implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(FluxFlixServiceApplication.class);
     private ProductoDao dao;
+    private ReactiveMongoTemplate mongoTemplate;
 
-    public FluxFlixServiceApplication(ProductoDao dao) {
+    public FluxFlixServiceApplication(ProductoDao dao, ReactiveMongoTemplate mongoTemplate) {
         this.dao = dao;
+        this.mongoTemplate = mongoTemplate;
+
     }
 
     public static void main(String[] args) {
@@ -25,13 +31,17 @@ public class FluxFlixServiceApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        mongoTemplate.dropCollection("productos").subscribe();
         Flux.just(
                 new Producto("playstation 5", 200.000),
                 new Producto("lenovo legion", 320.980),
                 new Producto("dell xps 15", 543.980),
                 new Producto("tv sansumg", 150.000)
         )
-                .flatMap(producto -> dao.save(producto))
+                .flatMap(producto -> {
+                    producto.setCreateAt(new Date());
+                    return dao.save(producto);
+                })
                 .subscribe(producto -> log.info("Insert:" + producto.getId() + "" + producto.getNombre()));
     }
 }
