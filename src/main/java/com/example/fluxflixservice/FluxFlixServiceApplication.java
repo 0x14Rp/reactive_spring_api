@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import reactor.core.publisher.Flux;
 
+import java.time.Instant;
 import java.util.Date;
 
 @SpringBootApplication
@@ -39,7 +40,7 @@ public class FluxFlixServiceApplication implements CommandLineRunner {
                 new Producto("tv sansumg", 150.000)
         )
                 .flatMap(producto -> {
-                    producto.setCreateAt(new Date());
+                    producto.setCreateAt(Instant.now());
                     return dao.save(producto);
                 })
                 .subscribe(producto -> log.info("Insert:" + producto.getId() + "" + producto.getNombre()));

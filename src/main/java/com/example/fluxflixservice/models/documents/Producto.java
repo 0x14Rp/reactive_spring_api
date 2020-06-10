@@ -3,6 +3,7 @@ package com.example.fluxflixservice.models.documents;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Instant;
 import java.util.Date;
 
 @Document(collection = "productos")
@@ -14,7 +15,7 @@ public class Producto {
     private String id;
     private String nombre;
     private Double precio;
-    private Date createAt;
+    private Instant createAt;
 
     public Producto(String nombre, Double precio) {
         this.nombre = nombre;
@@ -48,11 +49,11 @@ public class Producto {
         return this;
     }
 
-    public Date getCreateAt() {
+    public Instant getCreateAt() {
         return createAt;
     }
 
-    public Producto setCreateAt(Date createAt) {
+    public Producto setCreateAt(Instant createAt) {
         this.createAt = createAt;
         return this;
     }
