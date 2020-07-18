@@ -38,10 +38,8 @@ public class FluxFlixServiceApplication implements CommandLineRunner {
                 new Producto("lenovo legion", 320.980),
                 new Producto("dell xps 15", 543.980),
                 new Producto("tv sansumg", 150.000),
-                new Producto("playstation 6", 200.000),
-                new Producto("lenovo legion", 320.980),
-                new Producto("dell xps 15", 543.980),
-                new Producto("tv sansumg", 150.000)
+                new Producto("playstation 6", 200.000)
+
         )
                 .flatMap(producto -> {
                     producto.setCreateAt(Instant.now());
