@@ -37,7 +37,7 @@ public class ProductoRestController {
     @GetMapping("/{id}")
     public Mono<Producto> show(@PathVariable String id) {
 
-        /* Mono<Producto> producto = dao.findById(id); */
+    
 
         Flux<Producto> productos = dao.findAll();
 
